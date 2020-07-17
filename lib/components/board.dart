@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import './board_button.dart';
 import '../pages/screaming.dart';
+import '../models/status.dart';
+import './board_actions.dart';
 
 class Board extends StatefulWidget {
   @override
@@ -12,9 +14,24 @@ class _BoardState extends State<Board> {
   final maxAttempts = 100;
   int attempts = 0;
 
+  Status status = Status.stopped;
+
   List<BoardButton> buttons;
 
+  _BoardState() {
+    buttons = [
+      createButton(0),
+      createButton(1),
+      createButton(2),
+      createButton(3),
+    ];
+  }
+
   buttonPressed(BuildContext context, int index) {
+    if (status != Status.playing) {
+      return;
+    }
+
     attempts++;
 
     if (attempts >= maxAttempts) {
@@ -35,15 +52,14 @@ class _BoardState extends State<Board> {
     );
   }
 
+  play() {
+    setState(() {
+      status = Status.playing;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    buttons = [
-      createButton(0),
-      createButton(1),
-      createButton(2),
-      createButton(3),
-    ];
-
     return Column(
       children: <Widget>[
         Expanded(
@@ -58,6 +74,12 @@ class _BoardState extends State<Board> {
         Container(
           color: Colors.black38,
           height: 100,
+          child: Center(
+            child: BoardActions(
+              status: status,
+              onPlay: play,
+            ),
+          ),
         ),
       ],
     );

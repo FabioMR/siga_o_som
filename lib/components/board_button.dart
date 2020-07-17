@@ -6,9 +6,8 @@ class BoardButton extends StatefulWidget {
   final Color color;
   final Function onPressed;
 
-  final Map state = {'text': ''};
-
-  final List<BoxShadow> boxShadow = [];
+  final Map state = {'active': false};
+  final duration = Duration(milliseconds: 300);
 
   BoardButton({
     @required this.index,
@@ -17,16 +16,11 @@ class BoardButton extends StatefulWidget {
   });
 
   play() {
-    state['text'] = '...';
-    Future.delayed(Duration(seconds: 1), () => state['text'] = '');
-
     final soundNumber = index + 1;
     Player.play('sound$soundNumber.wav');
 
-    boxShadow.add(
-      BoxShadow(color: Colors.black, blurRadius: 10, spreadRadius: 1),
-    );
-    Future.delayed(Duration(seconds: 1), () => boxShadow.clear());
+    state['active'] = true;
+    Future.delayed(duration, () => state['active'] = false);
   }
 
   @override
@@ -36,24 +30,22 @@ class BoardButton extends StatefulWidget {
 class _BoardButtonState extends State<BoardButton> {
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: widget.color,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: widget.boxShadow,
+    return InkWell(
+      child: AnimatedPhysicalModel(
+        duration: widget.duration,
+        elevation: widget.state['active'] ? 0 : 5,
+        shape: BoxShape.rectangle,
+        shadowColor: Colors.black,
+        color: widget.state['active'] ? widget.color : widget.color.withAlpha(180),
+        child: Container()
       ),
-      child: FlatButton(
-        child: Container(
-          child: Text(widget.state['text']),
-        ),
-        onPressed: () {
-          setState(() {
-            widget.onPressed(widget.index);
-          });
+      onTap: () {
+        setState(() {
+          widget.onPressed(widget.index);
+        });
 
-          Future.delayed(Duration(seconds: 1), () => setState(() {}));
-        },
-      ),
+        Future.delayed(widget.duration, () => setState(() {}));
+      },
     );
   }
 }
