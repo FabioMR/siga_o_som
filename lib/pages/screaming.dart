@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../services/player.dart';
 
 class Screaming extends ModalRoute<void> {
+  final maxAttempts = 100;
+  int attempts = 0;
+
   @override
   Duration get transitionDuration => Duration(milliseconds: 500);
 
@@ -20,11 +23,16 @@ class Screaming extends ModalRoute<void> {
   @override
   bool get maintainState => true;
 
-  static show(BuildContext context) {
+  bool show(BuildContext context) {
+    attempts++;
+    if (attempts < maxAttempts) return false;
+
     Player.play('screaming.wav');
 
-    Navigator.push(context, Screaming());
+    Navigator.push(context, this);
     Future.delayed(Duration(seconds: 4), () => Navigator.pop(context));
+
+    return true;
   }
 
   @override

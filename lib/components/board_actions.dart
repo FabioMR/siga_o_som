@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import '../models/status.dart';
+import '../models/game_play.dart';
 
 class BoardActions extends StatelessWidget {
-  final Status status;
-  final Function onPlay;
+  final GamePlay gamePlay;
 
-  BoardActions({this.status, this.onPlay});
+  BoardActions({
+    @required this.gamePlay,
+  });
 
   @override
   Widget build(BuildContext context) {
-    switch (status) {
-      case Status.stopped:
+    switch (gamePlay.status) {
+      case GamePlayStatus.stopped:
         return RaisedButton(
           child: Text('INICIAR'),
-          onPressed: onPlay,
+          onPressed: gamePlay.start,
         );
-      case Status.showing:
+      case GamePlayStatus.showing:
         return Text('Memorize...');
-      case Status.playing:
+      case GamePlayStatus.playing:
         return Text('Sua vez!');
       default:
         return Container();
