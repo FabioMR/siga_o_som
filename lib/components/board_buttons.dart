@@ -22,17 +22,33 @@ class BoardButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-      mainAxisSpacing: 20,
-      crossAxisSpacing: 20,
-      children: [
-        createButton(context, 0),
-        createButton(context, 1),
-        createButton(context, 2),
-        createButton(context, 3),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(child: createButton(context, 0)),
+                SizedBox(width: 8),
+                Expanded(child: createButton(context, 1)),
+              ],
+            ),
+          ),
+          SizedBox(height: 8),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(child: createButton(context, 2)),
+                SizedBox(width: 8),
+                Expanded(child: createButton(context, 3)),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

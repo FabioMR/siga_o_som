@@ -26,7 +26,7 @@ class _BoardState extends State<Board> {
         ),
         Container(
           color: Colors.black38,
-          height: 100,
+          height: 64,
           child: Center(
             child: BoardActions(
               gamePlay: gamePlay,
