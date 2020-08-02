@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../services/player.dart';
 
-_Screaming _screaming = _Screaming();
+_GameOver _gameOver = _GameOver();
 
-showScreaming(context) {
-  _screaming.show(context);
-  _screaming = _Screaming();
+showGameOver(context) {
+  _gameOver.show(context);
+  _gameOver = _GameOver();
 }
 
-class _Screaming extends ModalRoute<void> {
+class _GameOver extends ModalRoute<void> {
   @override
   Duration get transitionDuration => Duration(milliseconds: 500);
 
@@ -28,7 +28,7 @@ class _Screaming extends ModalRoute<void> {
   bool get maintainState => true;
 
   show(BuildContext context) {
-    Player.play('screaming.wav');
+    Player.play('game_over.wav');
 
     Navigator.push(context, this);
     Future.delayed(Duration(seconds: 4), () => Navigator.pop(context));
@@ -39,7 +39,7 @@ class _Screaming extends ModalRoute<void> {
       Animation<double> secondaryAnimation) {
     return SafeArea(
       child: FittedBox(
-        child: Image.asset('assets/images/scare.jpg'),
+        child: Image.asset('assets/images/game_over.jpg'),
         fit: BoxFit.fitWidth,
       ),
     );

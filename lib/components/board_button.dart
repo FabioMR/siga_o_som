@@ -22,7 +22,7 @@ class BoardButton extends StatelessWidget {
         shape: BoxShape.rectangle,
         shadowColor: Colors.black,
         color: active ? color : color.withAlpha(180),
-        child: Container()
+        child: Container(),
       ),
       onTap: () => onPressed(index),
     );
